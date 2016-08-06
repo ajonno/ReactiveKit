@@ -10,7 +10,7 @@ import UIKit
 import ReactiveKit
 import ReactiveUIKit
 
-class TableExampleController: UIViewController {
+class TableExampleController: UIViewController, UITableViewDelegate {
     
     var arrData = CollectionProperty<[String]>([])
     var count = 0
@@ -31,6 +31,7 @@ class TableExampleController: UIViewController {
     
     func setupTableView() {
         tableView.rDataSource.forwardTo = self
+        tableView.rDelegate.forwardTo = self
         
         arrData.bindTo(tableView) { [weak self] indexPath, dataSource, collectionView in
             guard let weakSelf = self else { return UITableViewCell() }
@@ -54,5 +55,10 @@ class TableExampleController: UIViewController {
         if count < data.count { arrData.append(data[count]) }
         count += 1
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("tapped on row \(indexPath.row)")
+    }
+    
 }
 
